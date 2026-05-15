@@ -4,17 +4,22 @@ on:
   schedule:
     - cron: '0 3 1 1 *'
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  run:
+  update-license-year:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: FantasticFiasco/action-update-license-year@v3
+      - id: license
+        uses: FantasticFiasco/action-update-license-year@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-      - name: Merge PR
+      - name: Merge pull request
         if: steps.license.outputs.pullRequestNumber != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

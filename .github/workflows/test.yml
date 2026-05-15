@@ -1,82 +1,89 @@
 name: Python Application Testing
 
 on: [push]
-    
+
 jobs:
-   build-test:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.8.15
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.8.15"
-    - name: Install dependencies
-      run: |
-        sudo apt-get install poppler-utils
-        python -m pip install --upgrade pip
-        pip install poetry && poetry build
-   code-quality:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          sudo apt-get install poppler-utils
+          python -m pip install --upgrade pip poetry
+          poetry build
+
+  code-quality:
     needs: build-test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.8.15
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.8.15"
-    
-    - name: Install dependencies
-      run: |
-        sudo apt-get install poppler-utils
-        python -m pip install --upgrade pip
-        pip install poetry && poetry install
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    
-    - name: Security Analysis with bandit
-      run: |
-        mkdir ci-logs
-        poetry run bandit -r -lll  -f txt -o ci-logs/bandit.log ./pdf2dcm ./tests
-        
-    - name: Archive bandit report
-      uses: actions/upload-artifact@v4
-      with:
-        name: bandit-report
-        path: ci-logs/bandit.log
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
 
-   code-coverage:
+      - name: Install dependencies
+        run: |
+          sudo apt-get install poppler-utils
+          python -m pip install --upgrade pip poetry
+          poetry install --no-interaction
+
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Security analysis with bandit
+        run: |
+          mkdir ci-logs
+          poetry run bandit -r -lll -f txt -o ci-logs/bandit.log ./pdf2dcm ./tests
+
+      - name: Archive bandit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: ci-logs/bandit.log
+
+  code-coverage:
     needs: code-quality
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.8.15
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.8.15"
-    
-    - name: Install dependencies
-      run: |
-        sudo apt-get install poppler-utils
-        python -m pip install --upgrade pip
-        pip install poetry && poetry install
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
-    - name: Test with pytest
-      run: |
-        poetry install
-        poetry run pytest tests/  --cov-report=xml --cov=pdf2dcm --junitxml=./coverage.xml
-    - name: Code Coverage Summary Report
-      run: |
-       pip install coverage
-       coverage combine && coverage report --fail-under=90 -m
-       coverage html 
-    - name: Archive code coverage html report
-      uses: actions/upload-artifact@v4
-      with:
-        name: code-coverage-report
-        path: htmlcov/index.html
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install poppler-utils
+          python -m pip install --upgrade pip poetry
+          poetry install --no-interaction
+
+      - name: Test with pytest
+        run: |
+          poetry run pytest tests/ --cov-report=xml --cov=pdf2dcm --junitxml=./coverage.xml
+
+      - name: Code coverage summary report
+        run: |
+          coverage report --fail-under=90 -m
+          coverage html
+
+      - name: Archive code coverage html report
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report-${{ matrix.python-version }}
+          path: htmlcov/index.html
