@@ -1,6 +1,91 @@
 # CHANGELOG
 
 
+## v0.6.0 (2026-05-15)
+
+### Build System
+
+- **deps-dev**: Bump gitpython from 3.1.41 to 3.1.50
+  ([#79](https://github.com/a-parida12/pdf2dcm/pull/79),
+  [`23599cf`](https://github.com/a-parida12/pdf2dcm/commit/23599cf833bb962452ef1af2c67c56c2bd9b6a6c))
+
+Bumps [gitpython](https://github.com/gitpython-developers/GitPython) from 3.1.41 to 3.1.50. -
+  [Release notes](https://github.com/gitpython-developers/GitPython/releases) -
+  [Changelog](https://github.com/gitpython-developers/GitPython/blob/main/CHANGES) -
+  [Commits](https://github.com/gitpython-developers/GitPython/compare/3.1.41...3.1.50)
+
+--- updated-dependencies: - dependency-name: gitpython dependency-version: 3.1.50
+
+dependency-type: indirect
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+- **deps-dev**: Bump jinja2 from 3.1.5 to 3.1.6
+  ([#74](https://github.com/a-parida12/pdf2dcm/pull/74),
+  [`c861fdf`](https://github.com/a-parida12/pdf2dcm/commit/c861fdfb39561a9f36dbac9512a9e26f4f9f3fa8))
+
+Bumps [jinja2](https://github.com/pallets/jinja) from 3.1.5 to 3.1.6. - [Release
+  notes](https://github.com/pallets/jinja/releases) -
+  [Changelog](https://github.com/pallets/jinja/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/pallets/jinja/compare/3.1.5...3.1.6)
+
+--- updated-dependencies: - dependency-name: jinja2 dependency-type: indirect
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+- **deps-dev**: Bump virtualenv from 20.26.6 to 20.36.1
+  ([#76](https://github.com/a-parida12/pdf2dcm/pull/76),
+  [`f4d2f2d`](https://github.com/a-parida12/pdf2dcm/commit/f4d2f2da59cb259f6dc50a2faf3c39b4eed5c97b))
+
+Bumps [virtualenv](https://github.com/pypa/virtualenv) from 20.26.6 to 20.36.1. - [Release
+  notes](https://github.com/pypa/virtualenv/releases) -
+  [Changelog](https://github.com/pypa/virtualenv/blob/main/docs/changelog.rst) -
+  [Commits](https://github.com/pypa/virtualenv/compare/20.26.6...20.36.1)
+
+--- updated-dependencies: - dependency-name: virtualenv dependency-version: 20.36.1
+
+dependency-type: indirect
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+### Continuous Integration
+
+- **docs**: Update actions
+  ([`6a1d1de`](https://github.com/a-parida12/pdf2dcm/commit/6a1d1de3504ea8962db683aef885c0389c506f5f))
+
+### Documentation
+
+- **license**: Update copyright year(s) ([#75](https://github.com/a-parida12/pdf2dcm/pull/75),
+  [`36c26cf`](https://github.com/a-parida12/pdf2dcm/commit/36c26cfe6f3159dd617b5c9362802a2019f392c5))
+
+Co-authored-by: github-actions <github-actions@github.com>
+
+### Features
+
+- **release**: Update deps
+  ([`fdf1bf8`](https://github.com/a-parida12/pdf2dcm/commit/fdf1bf8780238041655dd88a49be6fdeee85664d))
+
+* docs: add module docstrings for issue 29
+
+* ci: run coverage via poetry
+
+* ci: split pytest matrix from coverage
+
+* feat(release): prepare minor release — enable PyPI publish and update deps
+
+
 ## v0.5.2 (2025-03-24)
 
 ### Bug Fixes
